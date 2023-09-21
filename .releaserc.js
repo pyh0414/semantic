@@ -12,6 +12,7 @@ console.log(branch);
 console.log(process.env);
 
 if (branch === "staging") {
+  console.log("staging!!");
   module.exports = {
     branches: ["staging"],
     plugins: [
@@ -26,6 +27,7 @@ if (branch === "staging") {
     ],
   };
 } else {
+  console.log("master!!");
   module.exports = {
     branches: ["master"],
     plugins: [
