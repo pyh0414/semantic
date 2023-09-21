@@ -9,6 +9,7 @@ function executeGitCommand(command) {
 const branch = executeGitCommand("git rev-parse --abbrev-ref HEAD");
 
 console.log(branch);
+console.log(process.env);
 
 if (branch === "staging") {
   module.exports = {
