@@ -1,0 +1,41 @@
+{
+  "name": "semantic-release",
+  "version": "2.10.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pyh0414/semantic-release.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/pyh0414/semantic-release/issues"
+  },
+  "homepage": "https://github.com/pyh0414/semantic-release#readme",
+  "devDependencies": {
+    "@semantic-release/git": "^10.0.1",
+    "semantic-release": "^21.1.2"
+  },
+  "release": {
+    "branches": [
+      "staging"
+    ],
+    "plugins": [
+      "@semantic-release/commit-analyzer",
+      "@semantic-release/release-notes-generator",
+      [
+        "@semantic-release/npm",
+        {
+          "npmPublish": false
+        }
+      ],
+      "@semantic-release/github",
+      "@semantic-release/git"
+    ]
+  }
+}

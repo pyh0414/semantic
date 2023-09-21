@@ -1,0 +1,10 @@
+console.log("36");
+console.log("2");
+console.log("2");
+console.log("2");
+console.log("2");
+console.log("2");
+console.log("2");
+console.log("2");
+console.log("2");
+console.log("2");
