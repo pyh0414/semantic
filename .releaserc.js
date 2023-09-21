@@ -21,7 +21,6 @@ if (branch === "staging") {
           npmPublish: false,
         },
       ],
-      "@semantic-release/github",
       "@semantic-release/git",
     ],
   };
