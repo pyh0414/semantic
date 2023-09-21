@@ -32,6 +32,7 @@ if (branch === "staging") {
       "@semantic-release/commit-analyzer",
       "@semantic-release/release-notes-generator",
       "@semantic-release/github",
+      "@semantic-release/git",
     ],
   };
 }
