@@ -23,19 +23,27 @@
   },
   "release": {
     "branches": [
-      "master"
-    ],
-    "plugins": [
-      "@semantic-release/commit-analyzer",
-      "@semantic-release/release-notes-generator",
-      [
-        "@semantic-release/npm",
-        {
-          "npmPublish": false
-        }
-      ],
-      "@semantic-release/github",
-      "@semantic-release/git"
+      {
+        "name": "master",
+        "plugins": [
+          "@semantic-release/commit-analyzer",
+          "@semantic-release/release-notes-generator"
+        ]
+      },
+      {
+        "name": "staging",
+        "plugins": [
+          "@semantic-release/commit-analyzer",
+          [
+            "@semantic-release/npm",
+            {
+              "npmPublish": false
+            }
+          ],
+          "@semantic-release/github",
+          "@semantic-release/git"
+        ]
+      }
     ]
   }
 }
