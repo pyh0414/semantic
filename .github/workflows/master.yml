@@ -17,6 +17,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
+      - name: Update daily data
+        run: node index.js
+
       - name: Semantic Release
         uses: cycjimmy/semantic-release-action@v3
         env:
