@@ -16,13 +16,17 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-
-      - name: Semantic Release
-        uses: cycjimmy/semantic-release-action@v3
         with:
-          extra_plugins: |
-            @semantic-release/git
+          fetch-depth: 0
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "lts/*"
+      - name: Install dependencies
+        run: npm clean-install
+      - name: Verify the integrity of provenance attestations and registry signatures for installed dependencies
+        run: npm audit signatures
+      - name: Release
         env:
-          # GH_TOKEN: Personal Access Token(PAT) 으로 Repo 에 대한 권한을 가진 토큰입니다.(semantic release 가 커밋을 할 수 있는 권한)
-          # 현재 soliven25 계정의 Personal Access Token 으로 지정되어 있습니다.
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+        run: npx semantic-release
