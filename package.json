@@ -18,10 +18,6 @@
     "url": "https://github.com/pyh0414/semantic/issues"
   },
   "homepage": "https://github.com/pyh0414/semantic#readme",
-  "devDependencies": {
-    "@semantic-release/git": "^10.0.1",
-    "semantic-release": "^21.1.2"
-  },
   "release": {
     "branches": [
       "staging"
