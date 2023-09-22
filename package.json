@@ -21,5 +21,20 @@
   "devDependencies": {
     "@semantic-release/git": "^10.0.1",
     "semantic-release": "^21.1.2"
+  },
+  "release": {
+    "branches": [
+      "staging"
+    ],
+    "plugins": [
+      "@semantic-release/commit-analyzer",
+      [
+        "@semantic-release/npm",
+        {
+          "npmPublish": false
+        }
+      ],
+      "@semantic-release/git"
+    ]
   }
 }
