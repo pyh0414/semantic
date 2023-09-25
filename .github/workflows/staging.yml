@@ -31,6 +31,12 @@ jobs:
   notification:
     name: "Test on node ${{ matrix.node_version }} and ${{ matrix.os }}"
     runs-on: "${{ matrix.os }}"
+    strategy:
+      matrix:
+        node_version:
+          - 16
+        os:
+          - ubuntu-20.04
     steps:
       - name: Git action result notification
         uses: 8398a7/action-slack@v3
