@@ -24,3 +24,13 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
         run: npx semantic-release
+
+      - name: Git action result notification
+        uses: 8398a7/action-slack@v3
+        with:
+          status: ${{ job.status }}
+          job_name: Test on node ${{ matrix.node_version }} and ${{ matrix.os }} # Match the name above(build.name)
+          fields: repo,message,commit,author,action,eventName,ref,workflow,job,took
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }} # required
+        if: always()
