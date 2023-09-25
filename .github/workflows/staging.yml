@@ -1,41 +1,38 @@
 name: Semantic Release
-
-on:
+"on":
   push:
     branches:
       - staging
-
 jobs:
   release:
-    name: Test on node ${{ matrix.node_version }} and ${{ matrix.os }}
-    runs-on: ${{ matrix.os }}
-    permissions:
-      contents: write # to be able to publish a GitHub release
-      issues: write # to be able to comment on released issues
-      pull-requests: write # to be able to comment on released pull requests
-      id-token: write # to enable use of OIDC for npm provenance
+    name: "Test on node ${{ matrix.node_version }} and ${{ matrix.os }}"
+    runs-on: "${{ matrix.os }}"
     strategy:
       matrix:
-        node_version: [16]
-        os: [ubuntu-20.04]
+        node_version:
+          - 16
+        os:
+          - ubuntu-20.04
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-
       - name: Install dependencies
         run: npm install semantic-release @semantic-release/git
-
       - name: Release
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
         run: npx semantic-release
 
+  notification:
+    name: "Test on node ${{ matrix.node_version }} and ${{ matrix.os }}"
+    runs-on: "${{ matrix.os }}"
+    steps:
       - name: Git action result notification
         uses: 8398a7/action-slack@v3
         with:
-          status: ${{ job.status }}
-          job_name: Test on node ${{ matrix.node_version }} and ${{ matrix.os }} # Match the name above(build.name)
-          fields: repo,message,commit,author,action,eventName,ref,workflow,job,took
+          status: "${{ job.status }}"
+          job_name: "Test on node ${{ matrix.node_version }} and ${{ matrix.os }}"
+          fields: "repo,message,commit,author,action,eventName,ref,workflow,job,took"
         env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }} # required
+          SLACK_WEBHOOK_URL: "${{ secrets.SLACK_WEBHOOK_URL }}"
         if: always()
