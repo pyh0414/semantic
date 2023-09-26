@@ -38,7 +38,7 @@ jobs:
         uses: 8398a7/action-slack@v3
         with:
           status: "${{ job.status }}"
-          job_name: "notification"
+          job_name: "release"
           fields: "repo,message,commit,author,action,eventName,ref,workflow,job,took"
         env:
           SLACK_WEBHOOK_URL: "${{ secrets.SLACK_WEBHOOK_URL }}"
