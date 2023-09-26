@@ -10,4 +10,3 @@ const branch = executeGitCommand("git rev-parse --abbrev-ref HEAD");
 
 console.log(process.env);
 console.log(branch);
-console.log(branch);
