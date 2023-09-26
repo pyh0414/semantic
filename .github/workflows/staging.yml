@@ -8,8 +8,6 @@ jobs:
   release:
     name: "release"
     runs-on: "${{ matrix.os }}"
-    permissions:
-      contents: write # to be able to publish a GitHub release
     strategy:
       matrix:
         node_version:
