@@ -27,6 +27,7 @@ jobs:
   notification:
     name: "notification"
     runs-on: "${{ matrix.os }}"
+    needs: release
     strategy:
       matrix:
         node_version:
