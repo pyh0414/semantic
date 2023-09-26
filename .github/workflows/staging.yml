@@ -1,17 +1,15 @@
 name: Semantic Release
+
 "on":
   push:
     branches:
       - staging
 jobs:
   release:
-    name: "Test on node ${{ matrix.node_version }} and ${{ matrix.os }}"
+    name: "release"
     runs-on: "${{ matrix.os }}"
     permissions:
       contents: write # to be able to publish a GitHub release
-      issues: write # to be able to comment on released issues
-      pull-requests: write # to be able to comment on released pull requests
-      id-token: write # to enable use of OIDC for npm provenance
     strategy:
       matrix:
         node_version:
@@ -29,7 +27,7 @@ jobs:
         run: npx semantic-release
 
   notification:
-    name: "Test on node ${{ matrix.node_version }} and ${{ matrix.os }}"
+    name: "notification"
     runs-on: "${{ matrix.os }}"
     strategy:
       matrix:
@@ -42,7 +40,7 @@ jobs:
         uses: 8398a7/action-slack@v3
         with:
           status: "${{ job.status }}"
-          job_name: "Test on node ${{ matrix.node_version }} and ${{ matrix.os }}"
+          job_name: "notification"
           fields: "repo,message,commit,author,action,eventName,ref,workflow,job,took"
         env:
           SLACK_WEBHOOK_URL: "${{ secrets.SLACK_WEBHOOK_URL }}"
