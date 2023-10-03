@@ -37,8 +37,7 @@ jobs:
         with:
           status: ${{ job.status }}
           username: "${{ github.actor }}"
-          icon_emoji: "${{ github.event.sender.avatar_url }}"
-          channel: "#integration-test"
+          icon_emoji: "🍻"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Required, but this should be automatically supplied by GitHub.
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }} # Required. Legacy Incoming Webhook is also supported.
