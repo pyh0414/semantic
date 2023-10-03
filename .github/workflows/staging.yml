@@ -30,12 +30,24 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: npx semantic-release
 
-      - name: Notify to Slack
-        uses: innocarpe/actions-slack@v1
+      - name: Send custom JSON data to Slack workflow
+        id: slack
+        uses: slackapi/slack-github-action@v1.24.0
         with:
-          status: ${{ job.status }} # Required
-          success_text: "<!subteam^S1ABC2DEF> The awesome workflow just finished ✅"
-          failure_text: "<!subteam^S1ABC2DEF> The bad workflow failed. Please check the issue below 👇"
+          # For posting a rich message using Block Kit
+          payload: |
+            {
+              "text": "GitHub Action build result: ${{ job.status }}\n${{ github.event.pull_request.html_url || github.event.head_commit.url }}",
+              "blocks": [
+                {
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": "GitHub Action build result: ${{ job.status }}\n${{ github.event.pull_request.html_url || github.event.head_commit.url }}"
+                  }
+                }
+              ]
+            }
         env:
-          GITHUB_TOKEN: ${{ secrets.GITTOKEN }} # Required
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEURL }} # Required
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
