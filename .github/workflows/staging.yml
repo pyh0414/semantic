@@ -33,7 +33,7 @@ jobs:
       - name: Notify to Slack
         uses: innocarpe/actions-slack@v1
         with:
-          status: ${{ job.release.status }} # Required
+          status: ${{ job.status }} # Required
           success_text: "<!subteam^S1ABC2DEF> The awesome workflow just finished ✅"
           failure_text: "<!subteam^S1ABC2DEF> The bad workflow failed. Please check the issue below 👇"
         env:
