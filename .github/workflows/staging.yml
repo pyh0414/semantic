@@ -10,7 +10,7 @@ jobs:
     name: Test on node ${{ matrix.node_version }} and ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
     permissions:
-      contents: read # to be able to publish a GitHub release
+      contents: write # to be able to publish a GitHub release
       issues: write # to be able to comment on released issues
       pull-requests: write # to be able to comment on released pull requests
       id-token: write # to enable use of OIDC for npm provenance
@@ -30,8 +30,10 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: npx semantic-release
 
-      - uses: actions/checkout@v2
-      - name: Slack Notification
-        uses: rtCamp/action-slack-notify@v2
-        env:
-          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
+      - name: Notify slack
+        uses: baijunyao/action-slack-notify@v3.0.1
+        if: always()
+        with:
+          slack_channel_id: your_channel_id
+          slack_bot_token: ${{ secrets.SLACK_BOT_TOKEN }}
+          github_context: ${{ toJson(github) }}
