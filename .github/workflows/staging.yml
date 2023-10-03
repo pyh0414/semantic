@@ -9,8 +9,10 @@ jobs:
   release:
     name: Test on node ${{ matrix.node_version }} and ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
+    env:
+      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
     permissions:
-      contents: tt # to be able to publish a GitHub release
+      contents: write # to be able to publish a GitHub release
       issues: write # to be able to comment on released issues
       pull-requests: write # to be able to comment on released pull requests
       id-token: write # to enable use of OIDC for npm provenance
@@ -30,31 +32,9 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: npx semantic-release
 
-      - name: Slack Notification on SUCCESS
-        uses: tokorom/action-slack-incoming-webhook@main
-        env:
-          INCOMING_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+      - uses: act10ns/slack@v2
         with:
-          text: Successfully automated deployment.
-          attachments: |
-            [
-              {
-                "color": "good",
-                "author_name": "${{ github.actor }}",
-                "author_icon": "${{ github.event.sender.avatar_url }}",
-                "fields": [
-                  {
-                    "title": "Commit Message",
-                    "value": "${{ github.event.head_commit.message }}"
-                  },
-                  {
-                    "title": "GitHub Actions URL",
-                    "value": "${{ github.event.repository.url }}/actions/runs/${{ github.run_id }}"
-                  },
-                  {
-                    "title": "Compare URL",
-                    "value": "${{ github.event.compare }}"
-                  }
-                ]
-              }
-            ]
+          status: ${{ job.status }}
+          steps: ${{ toJson(steps) }}
+          channel: "#workflows"
+          if: always()
