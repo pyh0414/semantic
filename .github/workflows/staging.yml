@@ -30,13 +30,12 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: npx semantic-release
 
-      - name: Notify
+      - name: Notify to Slack
         uses: innocarpe/actions-slack@v1
         with:
-          status: ${{ job.status }} # Required
-          success_text: "Step Succeeded 🚀" # Optional
-          failure_text: "Step Failed 😱" # Optional
-          cancelled_text: "Step Cancelled ⚠️" # Optional
+          status: ${{ job.release.status }} # Required
+          success_text: "<!subteam^S1ABC2DEF> The awesome workflow just finished ✅"
+          failure_text: "<!subteam^S1ABC2DEF> The bad workflow failed. Please check the issue below 👇"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Required
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }} # Required
