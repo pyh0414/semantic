@@ -33,12 +33,12 @@ jobs:
         run: npx semantic-release
 
       - uses: sonots/slack-notice-action@v3
+        if: always()
         with:
           status: ${{ job.status }}
-          username: Custom Username
-          icon_emoji: ":octocat:"
+          username: "${{ github.actor }}"
+          icon_emoji: "${{ github.event.sender.avatar_url }}"
           channel: "#integration-test"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Required, but this should be automatically supplied by GitHub.
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }} # Required. Legacy Incoming Webhook is also supported.
-        if: always() # Pick up events even if the job fails or is canceled.
