@@ -10,7 +10,7 @@ jobs:
     name: Test on node ${{ matrix.node_version }} and ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
     permissions:
-      contents: read # to be able to publish a GitHub release
+      contents: write # to be able to publish a GitHub release
       issues: write # to be able to comment on released issues
       pull-requests: write # to be able to comment on released pull requests
       id-token: write # to enable use of OIDC for npm provenance
@@ -37,5 +37,5 @@ jobs:
           success_text: "<!subteam^S1ABC2DEF> The awesome workflow just finished ✅"
           failure_text: "<!subteam^S1ABC2DEF> The bad workflow failed. Please check the issue below 👇"
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Required
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }} # Required
+          GITHUB_TOKEN: ${{ secrets.GITTOKEN }} # Required
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEURL }} # Required
