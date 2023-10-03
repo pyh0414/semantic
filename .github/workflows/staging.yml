@@ -9,6 +9,8 @@ jobs:
   release:
     name: Test on node ${{ matrix.node_version }} and ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
+    env:
+      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
     permissions:
       contents: write # to be able to publish a GitHub release
       issues: write # to be able to comment on released issues
@@ -30,10 +32,11 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: npx semantic-release
 
-      - name: Notify slack
-        uses: baijunyao/action-slack-notify@v3.0.1
+      - uses: sonots/slack-notice-action@v3
         if: always()
         with:
-          slack_channel_id: your_channel_id
-          slack_bot_token: ${{ secrets.SLACK_BOT_TOKEN }}
-          github_context: ${{ toJson(github) }}
+          status: ${{ job.status }}
+          username: "${{ github.actor }}"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Required, but this should be automatically supplied by GitHub.
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }} # Required. Legacy Incoming Webhook is also supported.
