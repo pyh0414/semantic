@@ -27,9 +27,13 @@ jobs:
       - name: Install dependencies
         run: npm install axios
 
-      - name: Notify slack
-        uses: baijunyao/action-slack-notify@v3.0.1
-        if: always()
-        with:
-          slack_bot_token: ${{ secrets.SLACK_BOT_TOKEN }}
-          github_context: ${{ toJson(github) }}
+      - name: Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: npx semantic-release
+
+      - uses: actions/checkout@v2
+      - name: Slack Notification
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
