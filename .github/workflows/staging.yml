@@ -32,18 +32,37 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: npx semantic-release
 
-      - name: Slack Notification
-        if: always() # Pick up events even if the job fails or is canceled.
-        uses: chussum/action-slack-notification@v1
+      - uses: sonots/slack-notice-action@v3
         with:
-          status: ${{ job.status }}
-          fields: repo,commit # selectable (default: repo,commit,action)
-          hash: 2e133437d3f8518b16b5f92d7906fe1e5b4d6b88 # optional, Github commit sha (will be display in fields (default. github ref))
-          success_text: Succeeded # optional, Slack message when succeeded.
-          failure_text: Failed # optional, Slack message when succeeded.
-          canceled_text: Canceled # optional, Slack message when succeeded.
-          bot_name: Hello World Bot # legacy optional, Override the legacy integration's default name.
-          channel: general # legacy optional, Override the legacy integration's default channel.
+          status: custom
+          payload: |
+            {
+              text: "Custom Field Check",
+              attachments: [{
+                "author_name": "sonots@slack-notice-action", // json
+                fallback: 'fallback',
+                color: 'good',
+                title: 'CI Result',
+                text: 'Succeeded',
+                fields: [{
+                  title: 'lower case',
+                  value: 'LOWER CASE CHECK'.toLowerCase(),
+                  short: true
+                },
+                {
+                  title: 'reverse',
+                  value: 'gnirts esrever'.split('').reverse().join(''),
+                  short: true
+                },
+                {
+                  title: 'long title1',
+                  value: 'long value1',
+                  short: false
+                }],
+                actions: [{
+                }]
+              }]
+            }
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # required
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # optional
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }} # required
