@@ -27,17 +27,9 @@ jobs:
       - name: Install dependencies
         run: npm install axios
 
-      - name: Release
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: npx semantic-release
-
-      - uses: sonots/slack-notice-action@v3
+      - name: Notify slack
+        uses: baijunyao/action-slack-notify@v3.0.1
         if: always()
         with:
-          status: ${{ job.status }}
-          username: "${{ github.actor }}"
-          icon_emoji: "🍻"
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Required, but this should be automatically supplied by GitHub.
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }} # Required. Legacy Incoming Webhook is also supported.
+          slack_bot_token: ${{ secrets.SLACK_BOT_TOKEN }}
+          github_context: ${{ toJson(github) }}
